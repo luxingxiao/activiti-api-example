@@ -3,19 +3,15 @@
  */
 package com.lu.activiti.task;
 
-import org.activiti.api.process.model.IntegrationContext;
-import org.activiti.api.process.runtime.connector.Connector;
-
 /**
  * @author luxingxiao
  *
  */
-public class SqlTask implements Connector {
+public class SqlTask implements IActivitiTask {
 
 	@Override
-	public IntegrationContext apply(IntegrationContext t) {
-		t.getInBoundVariables();
-		return null;
+	public void execute() {
+		
 	}
 
 }

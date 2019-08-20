@@ -33,6 +33,9 @@ public class GetHttpTask implements IActivitiTask {
 
 	@Override
 	public void execute() {
-		outputJson = restTemplate.getForObject(url, String.class, uriVariables);
+		System.out.println(url);
+		outputJson = "{\"test\":\"testValue\"}";
+		System.out.println(outputJson);
+//		outputJson = restTemplate.getForObject(url, String.class, uriVariables);
 	}
 }
