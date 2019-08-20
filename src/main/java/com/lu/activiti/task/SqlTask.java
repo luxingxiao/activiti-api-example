@@ -11,7 +11,7 @@ public class SqlTask implements IActivitiTask {
 
 	@Override
 	public void execute() {
-		
+		//call jdbc or mybatis
 	}
 
 }
