@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <process id="process-99da90de-355a-466b-b4b0-6b1a0de2f77e" name="register" isExecutable="true">
+    <documentation>This is user register process</documentation>
+    <startEvent id="StartEvent_1" />
+    <serviceTask id="ServiceTask_07f66wo" name="PhoneValidation" implementation="user.register.phoneValidation" />
+    <sequenceFlow id="SequenceFlow_0qm4hbo" sourceRef="StartEvent_1" targetRef="ServiceTask_07f66wo" />
+    <exclusiveGateway id="ExclusiveGateway_0oi4jfb" name="Phone validation passed?">
+      <outgoing>SequenceFlow_0wot4i3</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="SequenceFlow_0qfeprg" sourceRef="ServiceTask_07f66wo" targetRef="ExclusiveGateway_0oi4jfb" />
+    <serviceTask id="ServiceTask_1d541sn" name="SendVerifyCode" implementation="user.register.sendVerifyCode" />
+    <sequenceFlow id="SequenceFlow_0bviiis" name="Yes" sourceRef="ExclusiveGateway_0oi4jfb" targetRef="ServiceTask_1d541sn">
+      <conditionExpression xsi:type="tFormalExpression">phoneValidated==true</conditionExpression>
+    </sequenceFlow>
+    <userTask id="UserTask_1ox3xof" name="InputVerifyCode" />
+    <sequenceFlow id="SequenceFlow_1uomlms" sourceRef="ServiceTask_1d541sn" targetRef="UserTask_1ox3xof" />
+    <exclusiveGateway id="ExclusiveGateway_0xvd5p3" name="VerifyCode validation passed?">
+      <outgoing>SequenceFlow_0s8l0ud</outgoing>
+      <outgoing>SequenceFlow_160k540</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="SequenceFlow_11rkhn7" sourceRef="UserTask_1ox3xof" targetRef="ExclusiveGateway_0xvd5p3" />
+    <intermediateThrowEvent id="IntermediateThrowEvent_0f5koxw" name="PhoneValidationException">
+      <incoming>SequenceFlow_0wot4i3</incoming>
+      <outgoing>SequenceFlow_06k9vow</outgoing>
+    </intermediateThrowEvent>
+    <sequenceFlow id="SequenceFlow_0wot4i3" name="No" sourceRef="ExclusiveGateway_0oi4jfb" targetRef="IntermediateThrowEvent_0f5koxw">
+      <conditionExpression xsi:type="tFormalExpression">phoneValidated==false</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="EndEvent_1fg65mj">
+      <incoming>SequenceFlow_06k9vow</incoming>
+      <incoming>SequenceFlow_1hnhcgg</incoming>
+      <incoming>SequenceFlow_0vwtf96</incoming>
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_06k9vow" sourceRef="IntermediateThrowEvent_0f5koxw" targetRef="EndEvent_1fg65mj" />
+    <intermediateThrowEvent id="IntermediateThrowEvent_0oqrhe1" name="VerifyCodeValidationException">
+      <incoming>SequenceFlow_0s8l0ud</incoming>
+      <outgoing>SequenceFlow_1hnhcgg</outgoing>
+    </intermediateThrowEvent>
+    <sequenceFlow id="SequenceFlow_0s8l0ud" name="No" sourceRef="ExclusiveGateway_0xvd5p3" targetRef="IntermediateThrowEvent_0oqrhe1">
+      <conditionExpression xsi:type="tFormalExpression">verifyCodeValidated==false</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_1hnhcgg" sourceRef="IntermediateThrowEvent_0oqrhe1" targetRef="EndEvent_1fg65mj" />
+    <serviceTask id="ServiceTask_0sbubl2" name="AddKeycloakUser" implementation="user.register.addUser">
+      <incoming>SequenceFlow_160k540</incoming>
+      <outgoing>SequenceFlow_0vwtf96</outgoing>
+    </serviceTask>
+    <sequenceFlow id="SequenceFlow_160k540" name="Yes" sourceRef="ExclusiveGateway_0xvd5p3" targetRef="ServiceTask_0sbubl2">
+      <conditionExpression xsi:type="tFormalExpression">verifyCodeValidated==true</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_0vwtf96" sourceRef="ServiceTask_0sbubl2" targetRef="EndEvent_1fg65mj" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process-99da90de-355a-466b-b4b0-6b1a0de2f77e">
+    <bpmndi:BPMNPlane id="BPMNPlane_process-99da90de-355a-466b-b4b0-6b1a0de2f77e" bpmnElement="process-99da90de-355a-466b-b4b0-6b1a0de2f77e">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
+        <omgdc:Bounds x="9" y="69" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ServiceTask_07f66wo" bpmnElement="ServiceTask_07f66wo">
+        <omgdc:Bounds x="96" y="47" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_0oi4jfb" bpmnElement="ExclusiveGateway_0oi4jfb" isMarkerVisible="true">
+        <omgdc:Bounds x="247" y="62" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="231" y="24.5" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ServiceTask_1d541sn" bpmnElement="ServiceTask_1d541sn">
+        <omgdc:Bounds x="371" y="47" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1ox3xof" bpmnElement="UserTask_1ox3xof">
+        <omgdc:Bounds x="537" y="47" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_0xvd5p3" bpmnElement="ExclusiveGateway_0xvd5p3" isMarkerVisible="true">
+        <omgdc:Bounds x="703" y="62" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="701" y="21" width="54" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_0qm4hbo" bpmnElement="SequenceFlow_0qm4hbo">
+        <omgdi:waypoint x="45" y="87" />
+        <omgdi:waypoint x="96" y="87" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_0qfeprg" bpmnElement="SequenceFlow_0qfeprg">
+        <omgdi:waypoint x="196" y="87" />
+        <omgdi:waypoint x="247" y="87" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_0bviiis" bpmnElement="SequenceFlow_0bviiis">
+        <omgdi:waypoint x="297" y="87" />
+        <omgdi:waypoint x="371" y="87" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="325" y="69" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1uomlms" bpmnElement="SequenceFlow_1uomlms">
+        <omgdi:waypoint x="471" y="87" />
+        <omgdi:waypoint x="537" y="87" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11rkhn7" bpmnElement="SequenceFlow_11rkhn7">
+        <omgdi:waypoint x="637" y="87" />
+        <omgdi:waypoint x="703" y="87" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_0f5koxw_di" bpmnElement="IntermediateThrowEvent_0f5koxw">
+        <omgdc:Bounds x="426" y="205" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="401" y="248" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wot4i3_di" bpmnElement="SequenceFlow_0wot4i3">
+        <omgdi:waypoint x="272" y="112" />
+        <omgdi:waypoint x="272" y="223" />
+        <omgdi:waypoint x="426" y="223" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="280" y="164" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1fg65mj_di" bpmnElement="EndEvent_1fg65mj">
+        <omgdc:Bounds x="540" y="205" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_06k9vow_di" bpmnElement="SequenceFlow_06k9vow">
+        <omgdi:waypoint x="462" y="223" />
+        <omgdi:waypoint x="540" y="223" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_0oqrhe1_di" bpmnElement="IntermediateThrowEvent_0oqrhe1">
+        <omgdc:Bounds x="710" y="205" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="686" y="248" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s8l0ud_di" bpmnElement="SequenceFlow_0s8l0ud">
+        <omgdi:waypoint x="728" y="112" />
+        <omgdi:waypoint x="728" y="205" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="736" y="156" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hnhcgg_di" bpmnElement="SequenceFlow_1hnhcgg">
+        <omgdi:waypoint x="710" y="223" />
+        <omgdi:waypoint x="576" y="223" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0sbubl2_di" bpmnElement="ServiceTask_0sbubl2">
+        <omgdc:Bounds x="848" y="47" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_160k540_di" bpmnElement="SequenceFlow_160k540">
+        <omgdi:waypoint x="753" y="87" />
+        <omgdi:waypoint x="848" y="87" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="792" y="69" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vwtf96_di" bpmnElement="SequenceFlow_0vwtf96">
+        <omgdi:waypoint x="913" y="127" />
+        <omgdi:waypoint x="913" y="322" />
+        <omgdi:waypoint x="558" y="322" />
+        <omgdi:waypoint x="558" y="241" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

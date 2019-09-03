@@ -7,6 +7,6 @@ package com.lu.activiti.task;
  * @author luxingxiao
  *
  */
-public interface IActivitiTask {
+public interface IActivitiTask{
 	void execute();
 }
