@@ -6,11 +6,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RedisMock {
-  private Map<String, Object> cache = new HashMap<>();
-  public void add(String key, Object value){
-    cache.put(key,value);
+  private Map<String, Object> processKeyCache = new HashMap<>();
+  private Map<String, Object> verifyCodeCache = new HashMap<>();
+  public void addProcessKey(String key, Object value){
+    processKeyCache.put(key,value);
   }
-  public Object get(String key){
-    return cache.get(key);
+  public Object getProcessKey(String key){
+    return processKeyCache.get(key);
+  }
+
+  public void addVerifyCode(String key, Object value){
+    verifyCodeCache.put(key, value);
+  }
+
+  public Object getVerifyCode(String key){
+    return verifyCodeCache.get(key);
   }
 }

@@ -1,11 +1,17 @@
-package com.lu.activiti.task;
+package com.lu.activiti.task.register;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.lu.activiti.annotation.Input;
 import com.lu.activiti.annotation.Output;
+import com.lu.activiti.task.IActivitiTask;
+import com.oracle.tools.packager.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-public class PhoneValidationTask implements IActivitiTask{
+@Slf4j
+@Service
+public class PhoneValidationTask implements IActivitiTask {
 
   @Input
   private int countryCode;
@@ -20,5 +26,6 @@ public class PhoneValidationTask implements IActivitiTask{
     phoneNumber.setCountryCode(countryCode);
     phoneNumber.setNationalNumber(nationalNumber);
     phoneValidated = PhoneNumberUtil.getInstance().isValidNumber(phoneNumber);
+    log.info("手机号{} {}校验结果:{}", countryCode, nationalNumber, phoneValidated);
   }
 }
