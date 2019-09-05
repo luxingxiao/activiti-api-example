@@ -8,7 +8,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 public class SendVerifyCodeTask implements IActivitiTask {
   @Input
   private int countryCode;

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
 public class VerifyCodeTask implements IActivitiTask {
   @Input
   private int countryCode;

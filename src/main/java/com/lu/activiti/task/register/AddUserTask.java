@@ -7,7 +7,6 @@ import org.keycloak.admin.client.Keycloak;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
 public class AddUserTask implements IActivitiTask {
 
   @Input

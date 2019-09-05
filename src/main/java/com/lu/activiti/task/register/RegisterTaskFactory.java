@@ -10,37 +10,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class RegisterTaskFactory {
 
-  private PhoneValidationTask phoneValidationTask;
-  private SendVerifyCodeTask sendVerifyCodeTask;
-  private VerifyCodeTask verifyCodeTask;
-  private AddUserTask addUserTask;
-
-  public RegisterTaskFactory(@Autowired PhoneValidationTask phoneValidationTask,
-      @Autowired SendVerifyCodeTask sendVerifyCodeTask, VerifyCodeTask verifyCodeTask,
-      AddUserTask addUserTask) {
-    this.phoneValidationTask = phoneValidationTask;
-    this.sendVerifyCodeTask = sendVerifyCodeTask;
-    this.verifyCodeTask = verifyCodeTask;
-    this.addUserTask = addUserTask;
-  }
-
   @Bean("user.register.phoneValidation")
   public Connector phoneNumberValidation() {
-    return new ServiceTask<IActivitiTask>(phoneValidationTask);
+    return new ServiceTask<PhoneValidationTask>(PhoneValidationTask.class);
   }
 
   @Bean("user.register.sendVerifyCode")
   public Connector sendVerifyCode() {
-    return new ServiceTask<IActivitiTask>(sendVerifyCodeTask);
+    return new ServiceTask<SendVerifyCodeTask>(SendVerifyCodeTask.class);
   }
 
   @Bean("user.register.verifyCodeValidation")
   public Connector verifyCodeValidation() {
-    return new ServiceTask<IActivitiTask>(verifyCodeTask);
+    return new ServiceTask<VerifyCodeTask>(VerifyCodeTask.class);
   }
 
   @Bean("user.register.addUser")
   public Connector addUser() {
-    return new ServiceTask<IActivitiTask>(addUserTask);
+    return new ServiceTask<AddUserTask>(AddUserTask.class);
   }
 }
